@@ -1,7 +1,8 @@
 import 'package:credilio_flutter_news_api/apiCalls/newsApi.dart';
+import 'package:credilio_flutter_news_api/globalVariable.dart' as globals;
 import 'package:credilio_flutter_news_api/widget/appBar_widget.dart';
 import 'package:credilio_flutter_news_api/widget/newsArticalListView.dart';
-import 'package:credilio_flutter_news_api/widget/newsArticleTile_widget.dart';
+import 'package:credilio_flutter_news_api/widget/newsArticleCardView.dart';
 import 'package:flutter/material.dart';
 
 class CategoryNews extends StatefulWidget {
@@ -36,20 +37,22 @@ class _CategoryNewsState extends State<CategoryNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
-          context: context,
-          backButton: true,
-          actionButton: !_loading,
-          searchingList: newslist,
-          heading1: widget.newsCategory.toUpperCase(),
-          heading2: "News"),
-      body: _loading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : SingleChildScrollView(
-              child: newsArticalsListView(context: context, newwsArticle: newslist))
-    );
-
+        appBar: MyAppBar(
+            context: context,
+            backButton: true,
+            actionButton: !_loading,
+            searchingList: newslist,
+            heading1: widget.newsCategory.toUpperCase(),
+            heading2: "News"),
+        body: _loading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: globals.StoreData().checkViewType()
+                    ? newsArticalsListView(
+                        context: context, newwsArticle: newslist)
+                    : newsArticalsCardView(
+                        context: context, newwsArticle: newslist)));
   }
 }

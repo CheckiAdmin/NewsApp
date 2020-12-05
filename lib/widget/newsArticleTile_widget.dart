@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
 import '../views/article_view.dart';
 
 class NewsTile extends StatelessWidget {
@@ -9,29 +10,41 @@ class NewsTile extends StatelessWidget {
   final String content;
   final String posturl;
   final String publishat;
+  final double imageHeight;
+  final bool viewType;
 
-  NewsTile({this.imgUrl, this.desc, this.title, this.content, @required this.posturl, this.publishat});
+  NewsTile(
+      {this.imgUrl,
+      this.desc,
+      this.title,
+      this.content,
+      @required this.posturl,
+      this.publishat,
+      this.imageHeight = 200,
+      this.viewType});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => ArticleView(
-              postUrl: posturl,
-            )
-        ));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ArticleView(
+                      postUrl: posturl,
+                    )));
       },
       child: Container(
-          margin: EdgeInsets.only(bottom: 24),
+          margin: EdgeInsets.only(bottom: viewType ? 24 : 0),
           width: MediaQuery.of(context).size.width,
           child: Container(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 2),
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(6),bottomLeft:  Radius.circular(6))
-              ),
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(6),
+                      bottomLeft: Radius.circular(6))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -40,36 +53,40 @@ class NewsTile extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                       child: Image.network(
                         imgUrl,
-                        height: 200,
-                        width: MediaQuery.of(context).size.width,
+                        height: viewType ? 200 : 100.0,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
                         fit: BoxFit.cover,
                       )),
                   SizedBox(height: 12,),
                   Text(
                     title,
-                    maxLines: 4,textAlign: TextAlign.justify,
+                    maxLines: 4, textAlign: TextAlign.justify,
                     style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500, ),
+                      color: Colors.black87,
+                      fontSize: viewType ? 16 : 11.0,
+                      fontWeight: FontWeight.w500,),
                   ),
                   SizedBox(
-                    height: 4,
+                    height: viewType ? 4 : 0,
                   ),
-                  Text(
+                  viewType ? Text(
                     desc,
                     maxLines: 2,
                     textAlign: TextAlign.justify,
                     style: TextStyle(color: Colors.black54, fontSize: 12),
-                  ),
+                  ) : Text(""),
                   SizedBox(
-                    height: 4,
+                    height: viewType ? 4 : 0,
                   ),
-                  Text(
+                  viewType ? Text(
                     publishat,
                     maxLines: 1,
-                    style: TextStyle(color: Colors.black54, fontSize: 14),
-                  )
+                    style: TextStyle(
+                        color: Colors.black54, fontSize: viewType ? 14 : 8.0),
+                  ) : Text("")
                 ],
               ),
             ),

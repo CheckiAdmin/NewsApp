@@ -2,18 +2,21 @@ import 'package:credilio_flutter_news_api/globalVariable.dart' as globals;
 import 'package:credilio_flutter_news_api/widget/newsArticleTile_widget.dart';
 import 'package:flutter/material.dart';
 
-Widget newsArticalsListView({BuildContext context ,List newwsArticle}){
-  return  Container(
+Widget newsArticalsCardView({BuildContext context, List newwsArticle}) {
+  return Container(
     color: Colors.transparent,
     margin: EdgeInsets.only(top: 4),
-    child: ListView.builder(
-        itemCount: newwsArticle.length,
+    child: GridView.builder(
         shrinkWrap: true,
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 5.0,
+            crossAxisSpacing: 5.0,
+            childAspectRatio: 0.8),
+        itemCount: newwsArticle.length,
         physics: ClampingScrollPhysics(),
         itemBuilder: (context, index) {
           return Card(
-            elevation: 5.0,
-            color: Colors.white70,
             child: NewsTile(
               imgUrl: newwsArticle[index].urlToImage ?? "",
               title: newwsArticle[index].title ?? "",

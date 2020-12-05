@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:credilio_flutter_news_api/views/categorie_news.dart';
 import 'package:flutter/material.dart';
+
 /*
 
 class CategoryCard extends StatelessWidget {
@@ -40,22 +41,26 @@ class CategoryCard extends StatelessWidget {
 
 */
 
-
-class CategoryCard extends StatelessWidget {
+class CategoryCard extends StatefulWidget {
   final String imageAssetUrl, categoryName;
 
   CategoryCard({this.imageAssetUrl, this.categoryName});
 
   @override
+  _CategoryCardState createState() => _CategoryCardState();
+}
+
+class _CategoryCardState extends State<CategoryCard> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) =>
-                CategoryNews(
-                  newsCategory: categoryName.toLowerCase(),
-                )
-        ));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CategoryNews(
+                      newsCategory: widget.categoryName.toLowerCase(),
+                    )));
       },
       child: Container(
         margin: EdgeInsets.only(right: 14),
@@ -64,26 +69,21 @@ class CategoryCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(1),
               child: CachedNetworkImage(
-                imageUrl: imageAssetUrl,
+                imageUrl: widget.imageAssetUrl,
                 fit: BoxFit.fill,
               ),
             ),
-            Container(
+            Align(
               alignment: Alignment.bottomCenter,
-
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.transparent
-              ),
               child: Text(
-                categoryName,
+                widget.categoryName,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.w500),
               ),
-            )
+            ),
           ],
         ),
       ),

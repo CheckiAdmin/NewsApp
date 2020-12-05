@@ -1,8 +1,10 @@
 
+import 'package:credilio_flutter_news_api/globalVariable.dart' as globals;
 import 'package:credilio_flutter_news_api/widget/appBar_widget.dart';
 import 'package:credilio_flutter_news_api/widget/newsArticalListView.dart';
+import 'package:credilio_flutter_news_api/widget/newsArticleCardView.dart';
 import 'package:flutter/material.dart';
-import '../widget/newsArticleTile_widget.dart';
+
 import '../apiCalls/newsApi.dart';
 
 
@@ -14,8 +16,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   bool _loading;
+  bool viewType = true;
   var newslist;
-
 
   void getNews() async {
     News news = News();
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     _loading = true;
     super.initState();
     getNews();
+    print("Hurrey.............");
   }
 
   @override
@@ -48,8 +51,13 @@ class _HomePageState extends State<HomePage> {
                   child: Container(color: Colors.transparent,
                     child: Column(
                       children: <Widget>[
-                        /// News Article
-                        newsArticalsListView(context: context, newwsArticle: newslist)
+
+                        /// News Article0
+                        globals.StoreData().checkViewType()
+                            ? newsArticalsListView(
+                            context: context, newwsArticle: newslist)
+                            : newsArticalsCardView(
+                            context: context, newwsArticle: newslist)
                       ],
                     ),
                   ),

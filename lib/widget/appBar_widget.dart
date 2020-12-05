@@ -1,7 +1,7 @@
 import 'package:credilio_flutter_news_api/search/search.dart';
 import 'package:credilio_flutter_news_api/views/categorySelection.dart';
+import 'package:credilio_flutter_news_api/views/homepage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 Widget MyAppBar(
@@ -9,40 +9,67 @@ Widget MyAppBar(
     bool backButton = false,
     bool actionButton = true,
     List searchingList,
-    String heading1 ="Credilio",
-    String heading2 ="NewsApp"}) {
+    String heading1 = "Credilio",
+    String heading2 = "NewsApp",
+    bool viewTypeChanged = false}) {
   return AppBar(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         bottom: Radius.circular(20),
       ),
     ),
-
     centerTitle: true,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(heading1,
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w800,),
-        ),
-        Text(heading2,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800,),
-        )
-      ],
+    title: FittedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              heading1,
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          Text(
+            heading2,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+            ),
+          )
+        ],
+      ),
     ),
+    leading: viewTypeChanged
+        ? IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.deepOrangeAccent,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            })
+        : null,
     automaticallyImplyLeading: backButton,
     actions: [
       actionButton
           ? Container(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0.0),
-              child: IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    showSearch(context: context, delegate: Search(searchingList));
-                  }),
-            ),
-          )
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                child: IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      showSearch(
+                          context: context, delegate: Search(searchingList));
+                    }),
+              ),
+            )
           : Container(),
 
     ],
